@@ -1,4 +1,4 @@
-# Ping Service - Pingr
+# Usuário Service - Pingr
 
 This repo holds the ping microservice of the Pingr system.
 
