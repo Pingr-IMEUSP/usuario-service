@@ -20,7 +20,7 @@ interface ValidationInterface {
 }
 
 export default class UserController {
-  static create(ctx: Context) {
+  static create(ctx: Context): void {
     const { isValid, reason, payload } = UserController.parseAndValidateUserData(ctx.request.body);
     const { broker } = ctx;
 
