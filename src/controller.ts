@@ -56,6 +56,7 @@ export default class UserController {
     else if (User.all.some((user: UserInterface) => user.username == username)) errors.push('username already taken');
 
     if (!email || !email.match(emailRegex)) errors.push('Email is not a valid email');
+    else if (User.all.some((user: UserInterface) => user.email == email)) errors.push('Email already in use');
 
     if (!password || !password_confirmation || !password.length || !password_confirmation.length)
       errors.push("Password can't be blank");
