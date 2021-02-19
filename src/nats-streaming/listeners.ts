@@ -10,11 +10,11 @@ export function setupListeners(): void {
 
   createdUser.on(
     'message',
-    async (msg : Message): Promise<void> => {
-      const user:UserInterface = JSON.parse(msg.getData() as string);
+    async (msg: Message): Promise<void> => {
+      const user: UserInterface = JSON.parse(msg.getData() as string);
 
+      await User.all.push(user);
       console.log('[USER_CREATED]:', user);
-      User.all.push(user);
-    }
-  )
+    },
+  );
 }

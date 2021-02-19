@@ -1,8 +1,8 @@
 export interface UserInterface {
-  id: number,
-  username: string,
-  name: string,
-  email: string
+  id: number;
+  username: string;
+  name: string;
+  email: string;
 }
 
 export default class User {
