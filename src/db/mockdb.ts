@@ -7,5 +7,5 @@ export interface UserInterface {
 
 export default class User {
   static count = 0;
-  static all = [];
+  static all: UserInterface[] = [];
 }

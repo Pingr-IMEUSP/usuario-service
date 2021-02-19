@@ -1,6 +1,6 @@
 import * as Router from 'koa-router';
 import { Context } from 'koa';
-import User from './db/mockdb';
+import User, { UserInterface } from './db/mockdb';
 
 const router = new Router();
 
@@ -12,10 +12,7 @@ interface UserParams {
   password_confirmation: string
 }
 
-interface UserResponseInterface {
-  username: string,
-  name: string,
-  email: string,
+interface UserResponseInterface extends UserInterface {
   password?: string,
 }
 
@@ -23,13 +20,16 @@ const parseAndValidateUserData = (data : UserParams) => {
   let { username, name, email, password, password_confirmation } = data;
 
   const errors = [];
-  const emailRegex = /^(([^<>()[].,;:\s@"]+(.[^<>()[].,;:\s@"]+)*)|(".+"))@(([^<>()[].,;:\s@"]+.)+[^<>()[].,;:\s@"]{2,})$/i;
+  const emailRegex = /^[a-z0-9.]+@[a-z0-9]+.[a-z]+.([a-z]+)?$/i;
 
   if (!name || !name.trim())
     name = username;
 
   if (!username || !username.trim())
     errors.push("username can't be blank");
+    
+  if (User.all.some((user: UserInterface) => user.username == username))
+    errors.push("username already taken");
 
   if (!email || !email.match(emailRegex))
     errors.push("Email is not a valid email");
@@ -71,9 +71,10 @@ router.post('/users', (ctx : Context) => {
     return;
   }
 
-  broker.publish('USER_CREATED', JSON.stringify(payload));
   const response = { ...payload } as UserResponseInterface
   delete response['password'];
+
+  broker.publish('USER_CREATED', JSON.stringify(response));
 
   ctx.body = response
 })
