@@ -9,6 +9,7 @@ interface UserParams {
   password_confirmation: string;
 }
 
+// Cria uma interface para retorno de resposta da requisição na qual a senha é opcional
 interface UserResponseInterface extends UserInterface {
   password?: string;
 }
@@ -32,7 +33,7 @@ export default class UserController {
       return;
     }
 
-    // Canal de comunicação com o serviço de autenticação
+    // Canal de comunicação com o serviço de autenticação (não implementado)
     broker.publish('NEW_USER_PARAMS', JSON.stringify(payload));
 
     const response = { ...payload } as UserResponseInterface;
